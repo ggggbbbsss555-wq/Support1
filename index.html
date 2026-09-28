@@ -152,32 +152,37 @@ html,body{width:100%;height:100%;height:100dvh;font-family:'Inter',-apple-system
 .input-area{
   flex:0 0 auto;background:var(--bg2);
   border-top:1px solid var(--border);
-  padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));
-  display:none;align-items:flex-end;gap:8px;
+  padding:14px 16px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  display:none;align-items:flex-end;gap:10px;
   animation:slideUp 0.3s ease;
 }
 .input-area.visible{display:flex}
 .chat-input{
   flex:1;min-width:0;
-  padding:10px 14px;background:var(--bg4);
-  border:1px solid var(--border2);border-radius:22px;
-  color:var(--text);font-family:inherit;font-size:14px;
+  padding:13px 18px;background:var(--bg4);
+  border:1px solid var(--border2);border-radius:24px;
+  color:var(--text);font-family:inherit;font-size:15px;
   resize:none;outline:none;
-  max-height:120px;line-height:1.4;
-  transition:border-color 0.15s ease;
+  min-height:48px;
+  max-height:140px;line-height:1.5;
+  transition:border-color 0.15s ease,box-shadow 0.15s ease;
 }
-.chat-input:focus{border-color:var(--accent)}
+.chat-input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(0,210,255,0.12);
+}
 .chat-input::placeholder{color:var(--text4)}
 .send-btn{
-  width:40px;height:40px;border-radius:50%;
+  width:48px;height:48px;border-radius:50%;
   border:none;background:var(--sent-grad);color:var(--sent-text);
   cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-  transition:transform 0.1s ease,opacity 0.15s ease;
+  transition:transform 0.1s ease,opacity 0.15s ease,box-shadow 0.15s ease;
+  box-shadow:0 2px 8px rgba(0,210,255,0.25);
 }
-.send-btn:hover{opacity:0.92}
+.send-btn:hover{opacity:0.95;box-shadow:0 4px 14px rgba(0,210,255,0.35)}
 .send-btn:active{transform:scale(0.92)}
-.send-btn:disabled{opacity:0.4;cursor:not-allowed}
-.send-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.send-btn:disabled{opacity:0.4;cursor:not-allowed;box-shadow:none}
+.send-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ===== Back to FAQ button (in live mode) ===== */
 .back-to-faq{
@@ -471,7 +476,7 @@ function getAgentAck(){
 /* ===== Textarea auto-grow ===== */
 function autoGrowTextarea(){
   chatInput.style.height = 'auto';
-  const newH = Math.min(chatInput.scrollHeight, 120);
+  const newH = Math.min(chatInput.scrollHeight, 140);
   chatInput.style.height = newH + 'px';
   sendBtn.disabled = chatInput.value.trim().length === 0;
 }
