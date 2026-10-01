@@ -498,6 +498,53 @@ function escapeHtml(text){
 /* ===== Initialize ===== */
 renderFaqList();
 autoGrowTextarea();
+
+/* ===== Telegram User Data Integration ===== */
+var TgUser = null;
+function initTelegramUser(){
+  var p = new URLSearchParams(location.search);
+  var tgId = p.get('tg_id');
+  if(tgId){
+    TgUser = {
+      id: tgId,
+      name: p.get('tg_name') || 'Trader',
+      firstName: p.get('tg_first') || '',
+      lastName: p.get('tg_last') || '',
+      username: p.get('tg_username') || '',
+      photoUrl: p.get('tg_photo') || '',
+      language: p.get('tg_lang') || 'en',
+      platform: p.get('tg_platform') || 'QUOTEX'
+    };
+    updateUserDisplay();
+  }
+}
+
+function updateUserDisplay(){
+  if(!TgUser) return;
+  // Update chat header to show user name
+  var headerName = document.querySelector('.chat-header-name, .header-name');
+  if(headerName && TgUser.name){
+    // Keep "Support" as the chat name but could show user info
+  }
+  // Update welcome message with user name
+  var hint = document.querySelector('.empty-hint, .welcome-text');
+  if(hint && TgUser.firstName){
+    var hintTitle = hint.querySelector('.hint-title, h3, strong');
+    if(hintTitle) hintTitle.textContent = 'Hi ' + TgUser.firstName + '!';
+  }
+}
+
+// Build message payload with user data (for sending to backend/bot)
+function buildMessagePayload(message){
+  return {
+    user: TgUser || {id:'guest', name:'Guest', username:'guest'},
+    message: message,
+    timestamp: Date.now(),
+    source: 'quantvexa_settings'
+  };
+}
+
+initTelegramUser();
 </script>
 </body>
 </html>
